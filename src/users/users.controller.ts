@@ -10,9 +10,9 @@ import {
   Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { PatchUserDto } from './dto/patch-user.dto';
-import { UpdateUserDto } from './dto/update-user-input.dto';
+import { ICreateUser } from './interfaces/user-create.interface';
+import { IPatchUser } from './interfaces/user-patch.interface';
+import { IUpdateUser } from './interfaces/user-update.interface';
 import { IUser } from './interfaces/user.interface';
 
 @Controller('users')
@@ -25,8 +25,8 @@ export class UsersController {
   }
 
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto): Promise<IUser> {
-    return this.usersService.createUser(createUserDto);
+  createUser(@Body() ICreateUser: ICreateUser): Promise<IUser> {
+    return this.usersService.createUser(ICreateUser);
   }
 
   @Delete(':id')
@@ -37,16 +37,16 @@ export class UsersController {
   @Patch(':id')
   async patchUser(
     @Param('id', ParseIntPipe) id: number,
-    @Body() patchUserDto: PatchUserDto,
+    @Body() IPatchUser: IPatchUser,
   ): Promise<IUser> {
-    return this.usersService.patchUser(id, patchUserDto);
+    return this.usersService.patchUser(id, IPatchUser);
   }
 
   @Put(':id')
   async updateUser(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
+    @Body() IUpdateUser: IUpdateUser,
   ): Promise<IUser> {
-    return this.usersService.updateUser(id, updateUserDto);
+    return this.usersService.updateUser(id, IUpdateUser);
   }
 }
